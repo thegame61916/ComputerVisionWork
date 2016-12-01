@@ -1,0 +1,38 @@
+Projection matrix is:
+[[  3.96173182e-03   3.11538970e-04   1.86238666e-03  -9.13153168e-01]
+ [  1.87708116e-04   4.24084506e-03  -8.65777998e-04  -4.07569902e-01]
+ [ -7.63671423e-08   1.19359844e-07   3.05929301e-07  -1.89856060e-04]]
+camera intrinsic parameters are:
+[[  4.29469467e-03   3.63134684e-05  -9.02850295e-04]
+ [  0.00000000e+00  -4.27975669e-03  -6.73242439e-04]
+ [ -0.00000000e+00   0.00000000e+00  -3.37151969e-07]]
+
+camera extrinsic parameters are:
+[[ 0.9707605   0.00602357  0.23997451]
+ [-0.07949096 -0.93521699  0.34503677]
+ [ 0.22650659 -0.35402387 -0.9073929 ]]
+Image points calculated using this camera matrix:
+World point: [0, 0, 36]
+Actual Image point: [4731, 2453]
+Calculated point: [4731.0161099567049, 2453.2068787532053]
+
+World point: [0, 36, 0]
+Actual Image point: [4873, 1407]
+Calculated point: [4860.6494406681559, 1373.6834889940335]
+
+World point: [0, 72, 0]
+Actual Image point: [4914, 564]
+Calculated point: [4914.0008208499439, 563.98457793124385]
+
+World point: [36, 0, 0]
+Actual Image point: [4010, 2073]
+Calculated point: [4000.5696213734891, 2081.0042966664346]
+
+World point: [0, 0, 0]
+Actual Image point: [4826, 2141]
+Calculated point: [4809.7130315564327, 2146.7310624716138]
+
+World point: [0, 0, 72]
+Actual Image point: [4642, 2800]
+Calculated point: [4641.9905298563581, 2799.9064290859433]
+

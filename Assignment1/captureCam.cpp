@@ -1,0 +1,126 @@
+// Display the frames being captured by Image. Store the current frame in output2 folder on left click 
+// Name: Mohit Sharma
+// Roll No. : 201505508
+
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+#define ESC_KEY			27
+#define WAIT_BETWEEN_FRAMES	30
+#define OUTPUT_FOLDER_NAME 	"output"
+
+int fNo = 0;
+
+double A[12][12] = {0};
+
+int margin = 36;
+
+void upDateforU(int *W, int ptNo, int u)
+{
+	for(int i = 0; i<4; i++)
+	{
+		A[ptNo][i] = W[i]; 
+	}
+	for(int i = 8; i<12; i++)
+	{
+		A[ptNo][i] = -1 * u * W[i-8]; 
+	}
+}
+
+void upDateforV(int *W, int ptNo, int u)
+{
+	for(int i = 4; i<8; i++)
+	{
+		A[ptNo][i] = W[i-4]; 
+	}
+	for(int i = 8; i<12; i++)
+	{
+		A[ptNo][i] = -1 * u * W[i-8]; 
+	}
+}
+
+void captureImage(int event, int x, int y, int flags, void* userdata) 	//Event handler for mouse to capture image		
+{
+	static int ptNo = 0;
+	int X[] = {0,0,0,1};
+	Mat w,D,V;
+	if(event == EVENT_LBUTTONDOWN)
+	{
+		switch(ptNo)
+		{
+			case 0:	X[2] = 2*margin;
+				upDateforU(X, ptNo*2, x);
+				upDateforV(X, ptNo*2+1, y);
+				ptNo++;
+				break;
+			
+			case 1:	X[2] = margin;
+				upDateforU(X, ptNo*2, x);
+				upDateforV(X, ptNo*2+1, y);
+				ptNo++;
+				break;
+			
+			case 2:	upDateforU(X, ptNo*2, x);
+				upDateforV(X, ptNo*2+1, y);
+				ptNo++;
+				break;
+			
+			case 3: X[1] = margin;
+				upDateforU(X, ptNo*2, x);
+				upDateforV(X, ptNo*2+1, y);
+				ptNo++;
+				break;
+			
+			case 4: X[1] = 2*margin;
+				upDateforU(X, ptNo*2, x);
+				upDateforV(X, ptNo*2+1, y);
+				ptNo++;
+				break;
+			
+			case 5: 
+				X[0] = margin;
+				upDateforU(X, ptNo*2, x);
+				upDateforV(X, ptNo*2+1, y);
+				ptNo++;
+				SVD::compute(Mat(12,12,CV_64F,A),w,D,V);
+				cout <<V.col(V.cols-1);
+				cout<<"\n";
+				/*for(int i = 0; i<12; i+=4)
+				{
+					for (int j = i; j<i+4; j++)
+					{
+						cout <<V.col(0).row(j)<<"\t";
+					}
+					cout<<"\n";
+				}*/
+				cout <<"\n";
+				break;
+			default: return;
+		}
+			
+	}
+}
+
+void capturePointsNPrintSVD()
+{
+	Mat image;
+	namedWindow("Image",CV_WINDOW_AUTOSIZE);
+	setMouseCallback("Image", captureImage, &image);
+    	image = imread("measurements.jpg", CV_LOAD_IMAGE_COLOR);   // Read the file
+    	if(! image.data )                              // Check for invalid input
+    	{
+		cout <<  "Could not open or find the image\n";
+    	}
+    	imshow( "Image", image );                   // Show our image inside it.
+    	waitKey(0);                       
+}
+
+int main(int argc, char* argv[])
+{
+	capturePointsNPrintSVD();
+	return 0;
+}

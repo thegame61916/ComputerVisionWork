@@ -1,0 +1,5 @@
+To run the code:
+1. run "make" in current folder.
+2. Now run ./capture.
+
+To capture a frame left click on the webcam window. Captured frames will be stored in the "output" folder. Press ESC to exit the cam.

@@ -1,0 +1,6 @@
+To run the code:
+1. run "make" in current folder.
+2. Now run ./split.
+
+The video "jl.mp4" present in current folder will be divided in 100 frames. Those frames will be recombined in a video and displayed.
+All the frames and recombined video can be found in "output"  folder. Recombined video is stored with name "MyVideo.avi".

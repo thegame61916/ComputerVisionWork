@@ -1,0 +1,5 @@
+To run the code:
+1. run "make" in current folder.
+2. Now run ./mergeVdos.
+
+Two videos which are already present in the folder will be merged and merged video will be displayed. You can also find the merged video in "output" folder with name "merged.avi". 

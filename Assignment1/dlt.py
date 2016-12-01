@@ -1,0 +1,50 @@
+# program to implement DLT method to caliberate the camera
+
+from numpy import *
+import numpy as np
+from scipy import linalg
+
+A =[]
+x = [[733, 989], [792,821], [775, 698], [912, 950], [803, 939], [651, 1045]]		# checkerboard
+X = [[0, 0, 25], [0,25,0], [0,50,0], [25,0,0], [0,0,0], [0,0,50]]
+
+x = [[475, 3222], [3874, 2379], [4064, 509], [3242, 475], [2637, 3004], [4642, 2800]]	# provided image
+X = [[144, 0, 144], [36, 0, 36], [36, 72, 0], [72, 72, 0], [72, 0, 108], [0, 0, 72]]
+
+def addPointToA(x,X):									# Add image point x and world point X to A
+	l = [X[0],X[1],X[2],1,0,0,0,0,-1*x[0]*X[0], -1 * x[0]*X[1], -1*x[0]*X[2], -1*x[0]]
+	A.append(l)
+	l = [0,0,0,0,X[0],X[1],X[2],1,-1*x[1]*X[0], -1 * x[1]*X[1], -1*x[1]*X[2], -1*x[1]]
+	A.append(l)
+	
+def prepareA():										#prepare matrix A for selected points
+	for i in range(len(x)):
+		addPointToA(x[i], X[i])
+
+prepareA()
+
+print A
+U,s,V = linalg.svd(A)
+P = V[-1].reshape((3,4))		
+M =[]
+for i in P:
+	M.append(i[0:3])
+
+r, q = linalg.rq(M)
+print 'Projection matrix is:'
+print P
+print 'camera intrinsic parameters are:'
+print r
+print 
+print 'camera extrinsic parameters are:'
+print q
+
+
+print 'Image points calculated using this camera matrix:'
+for i in range(len(X)):
+	y = np.dot(P, X[i] + [1])
+	print 'World point: %s' % X[i]
+	print 'Actual Image point: %s' % x[i]
+	l = [y[0]/y[2], y[1]/y[2]]
+	print 'Calculated point: %s' % l
+	print
